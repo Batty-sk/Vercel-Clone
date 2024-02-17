@@ -1,6 +1,8 @@
 
 import express, { Request, Response } from 'express';
 import { Clone_Repo } from './utlis';
+import { uploadDirectory } from './uploadBucket';
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const port = 3000;
@@ -17,12 +19,16 @@ app.get('/github', async(req: Request, res: Response) => {
     } */
     console.log('cloning...')
     const cleanedUrl = url.replace(/"/g, '')
-    let result = await Clone_Repo(cleanedUrl)
+
+    const uniqueId = uuidv4().slice(0,5);
+
+    let result = await Clone_Repo(cleanedUrl,uniqueId)
     if (result == 0){
         res.status(500)
     }
     else{
         res.status(200).send('Valid GitHub repository URL');
+        const result=await uploadDirectory(uniqueId)
 
 
     }
