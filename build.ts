@@ -48,7 +48,7 @@ export async function runNpmInstallAndBuild(path:string): Promise<void> {
         await runNpmBuild(path);
         console.log('npm run build completed.');
     } catch (error) {
-        throw new Error(error);
+        throw new Error(error instanceof Error ? error.message : String(error));
     }
 }
 
