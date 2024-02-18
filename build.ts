@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 
 function runNpmInstall(path:string): Promise<void> {
     return new Promise((resolve, reject) => {
-        exec('npm install', (error, stdout, stderr) => {
+        exec('npm install',{cwd:path}, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing npm install: ${error.message}`);
                 reject(error);
@@ -48,7 +48,7 @@ export async function runNpmInstallAndBuild(path:string): Promise<void> {
         await runNpmBuild(path);
         console.log('npm run build completed.');
     } catch (error) {
-        console.error('An error occurred:', error);
+        throw new Error(error);
     }
 }
 

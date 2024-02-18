@@ -29,7 +29,6 @@ app.get('/github', async(req: Request, res: Response) => {
         res.status(500)
     }
     else{
-        res.status(200).send('Valid GitHub repository URL');
         
         try{
             const logs= runNpmInstallAndBuild(`G-Repo/${uniqueId}`)
