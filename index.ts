@@ -19,7 +19,7 @@ app.get('/github', async(req: Request, res: Response) => {
     } */
     console.log('cloning...')
     const cleanedUrl = url.replace(/"/g, '')
-
+    
     const uniqueId = uuidv4().slice(0,5);
 
     let result = await Clone_Repo(cleanedUrl,uniqueId)
@@ -28,7 +28,9 @@ app.get('/github', async(req: Request, res: Response) => {
     }
     else{
         res.status(200).send('Valid GitHub repository URL');
+        
         const result=await uploadDirectory(uniqueId)
+        res.send({'status':'success'}).status(200)
 
 
     }
