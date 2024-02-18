@@ -2,7 +2,9 @@
 import express, { Request, Response } from 'express';
 import { Clone_Repo } from './utlis';
 import { uploadDirectory } from './uploadBucket';
+import { runNpmInstallAndBuild } from './build';
 const { v4: uuidv4 } = require('uuid');
+
 
 const app = express();
 const port = 3000;
@@ -29,8 +31,14 @@ app.get('/github', async(req: Request, res: Response) => {
     else{
         res.status(200).send('Valid GitHub repository URL');
         
-        const result=await uploadDirectory(uniqueId)
-        res.send({'status':'success'}).status(200)
+        try{
+            const logs= runNpmInstallAndBuild(`G-Repo/${uniqueId}`)
+            // const result=await uploadDirectory(uniqueId)
+            return res.send({'logs':logs}).status(200)
+        }
+        catch(err){
+            return res.send({'error':err}).status(400)
+        }
 
 
     }

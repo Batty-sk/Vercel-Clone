@@ -1,6 +1,5 @@
 import { exec } from 'child_process';
 
-// Function to run npm install
 function runNpmInstall(path:string): Promise<void> {
     return new Promise((resolve, reject) => {
         exec('npm install', (error, stdout, stderr) => {
@@ -39,8 +38,7 @@ function runNpmBuild(path:string): Promise<void> {
     });
 }
 
-// Usage: Run npm install and then npm run build
-async function runNpmInstallAndBuild(path:string): Promise<void> {
+export async function runNpmInstallAndBuild(path:string): Promise<void> {
     try {
         console.log('Running npm install...');
         await runNpmInstall(path);
@@ -54,4 +52,3 @@ async function runNpmInstallAndBuild(path:string): Promise<void> {
     }
 }
 
-runNpmInstallAndBuild(path);
