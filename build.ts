@@ -1,15 +1,19 @@
 import { exec } from 'child_process';
+import { platform } from 'os';
 
 function runNpmInstall(path:string): Promise<void> {
     return new Promise((resolve, reject) => {
-        exec('npm install',{cwd:path}, (error, stdout, stderr) => {
+        const stderrRedirect = platform() === 'win32' ? '2> NUL' : '2> /dev/null';
+        const command = `npm install ${stderrRedirect}`;
+
+        exec(command,{cwd:path}, (error, stdout, stderr) => {
             if (error) {
-                console.error(`Error executing npm install: ${error.message}`);
+                console.log(`Error executing npm install: ${error.message}`);
                 reject(error);
                 return;
             }
             if (stderr) {
-                console.error(`npm install stderr: ${stderr}`);
+                console.log(`npm install stderr: ${stderr}`);
                 reject(stderr);
                 return;
             }
@@ -21,7 +25,10 @@ function runNpmInstall(path:string): Promise<void> {
 
 function runNpmBuild(path:string): Promise<void> {
     return new Promise((resolve, reject) => {
-        exec('npm run build',{cwd:path}, (error, stdout, stderr) => {
+        const stderrRedirect = platform() === 'win32' ? '2> NUL' : '2> /dev/null';
+        const command = `npm run build ${stderrRedirect}`;
+
+        exec(command,{cwd:path}, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing npm run build: ${error.message}`);
                 reject(error);

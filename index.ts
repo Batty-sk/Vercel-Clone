@@ -31,7 +31,7 @@ app.get('/github', async(req: Request, res: Response) => {
     else{
         
         try{
-            const logs= runNpmInstallAndBuild(`G-Repo/${uniqueId}`)
+            const logs= await runNpmInstallAndBuild(`G-Repo/${uniqueId}`)
             // const result=await uploadDirectory(uniqueId)
             return res.send({'logs':logs}).status(200)
         }
