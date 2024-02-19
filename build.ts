@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { platform } from 'os';
 
-function runNpmInstall(path:string): Promise<void> {
+function runNpmInstall(path:string): Promise<string> {
     return new Promise((resolve, reject) => {
         const stderrRedirect = platform() === 'win32' ? '2> NUL' : '2> /dev/null';
         const command = `npm install ${stderrRedirect}`;
@@ -18,12 +18,12 @@ function runNpmInstall(path:string): Promise<void> {
                 return;
             }
             console.log(`npm install stdout: ${stdout}`);
-            resolve();
+            resolve(stdout);
         });
     });
 }
 
-function runNpmBuild(path:string): Promise<void> {
+function runNpmBuild(path:string): Promise<string> {
     return new Promise((resolve, reject) => {
         const stderrRedirect = platform() === 'win32' ? '2> NUL' : '2> /dev/null';
         const command = `npm run build ${stderrRedirect}`;
@@ -40,7 +40,7 @@ function runNpmBuild(path:string): Promise<void> {
                 return;
             }
             console.log(`npm run build stdout: ${stdout}`);
-            resolve();
+            resolve(stdout);
         });
     });
 }
