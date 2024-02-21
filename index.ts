@@ -24,16 +24,18 @@ app.get('/github', async(req: Request, res: Response) => {
     
     const uniqueId = uuidv4().slice(0,5);
 
-    let result = await Clone_Repo(cleanedUrl,uniqueId)
+    let result = 1//await Clone_Repo(cleanedUrl,uniqueId)
     if (result == 0){
         res.status(500)
     }
     else{
         
         try{
-            const logs= await runNpmInstallAndBuild(`G-Repo/${uniqueId}`)
+            
+            //const logs= await runNpmInstallAndBuild(`G-Repo/${uniqueId}`)
             // const result=await uploadDirectory(uniqueId)
-            return res.send({'logs':logs}).status(200)
+            const upload_logs=uploadDirectory('ddb83')
+            return res.send({'logs':'logs'}).status(200)
         }
         catch(err){
             return res.send({'error':err}).status(400)
